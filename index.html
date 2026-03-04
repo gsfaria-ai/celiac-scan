@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CeliacScan Pro - Protótipo 🐸</title>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; background-color: #f0f4f0; margin: 0; padding: 20px; }
+        #reader { width: 100%; max-width: 500px; margin: auto; background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        #result-container { margin-top: 20px; padding: 20px; border-radius: 15px; display: none; }
+        .safe { background-color: #d4edda; color: #155724; border: 2px solid #c3e6cb; }
+        .warning { background-color: #fff3cd; color: #856404; border: 2px solid #ffeeba; }
+        .unsafe { background-color: #f8d7da; color: #721c24; border: 2px solid #f5c6cb; }
+        h1 { color: #2e7d32; }
+        .btn-reset { margin-top: 15px; padding: 10px 20px; background: #2e7d32; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>CeliacScan Pro 🐸</h1>
+    <p>Aponta a câmara para o código de barras do produto.</p>
+    
+    <div id="reader"></div>
+
+    <div id="result-container">
+        <h2 id="product-name"></h2>
+        <p id="product-brand"></p>
+        <div id="product-status" style="font-size: 2em;"></div>
+        <p id="product-reason"></p>
+        <button class="btn-reset" onclick="resetScanner()">Ler novo produto</button>
+    </div>
+
+    <script>
+        let products = [];
+        // Carregar a base de dados
+        fetch('celiac_scan_db.json')
+            .then(response => response.json())
+            .then(data => products = data);
+
+        function onScanSuccess(decodedText, decodedResult) {
+            console.log(`Código lido: ${decodedText}`);
+            html5QrcodeScanner.clear(); // Parar o scanner após ler
+            
+            const product = products.find(p => p.ean === decodedText);
+            showResult(product, decodedText);
+        }
+
+        function showResult(product, ean) {
+            const container = document.getElementById('result-container');
+            const nameEl = document.getElementById('product-name');
+            const brandEl = document.getElementById('product-brand');
+            const statusEl = document.getElementById('product-status');
+            const reasonEl = document.getElementById('product-reason');
+
+            container.style.display = 'block';
+            document.getElementById('reader').style.display = 'none';
+
+            if (product) {
+                nameEl.innerText = product.name;
+                brandEl.innerText = product.brand;
+                reasonEl.innerText = product.reason;
+                
+                if (product.status === 'safe') {
+                    container.className = 'safe';
+                    statusEl.innerText = '✅ SEGURO';
+                } else if (product.status === 'warning') {
+                    container.className = 'warning';
+                    statusEl.innerText = '⚠️ CUIDADO (Vestígios)';
+                }
+            } else {
+                container.className = 'unsafe';
+                nameEl.innerText = 'Produto Desconhecido';
+                brandEl.innerText = `EAN: ${ean}`;
+                statusEl.innerText = '❓ NÃO CATALOGADO';
+                reasonEl.innerText = 'Ainda não temos este produto na nossa base de dados.';
+            }
+        }
+
+        function resetScanner() {
+            document.getElementById('result-container').style.display = 'none';
+            document.getElementById('reader').style.display = 'block';
+            startScanner();
+        }
+
+        const html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
+        
+        function startScanner() {
+            html5QrcodeScanner.render(onScanSuccess);
+        }
+
+        startScanner();
+    </script>
+</body>
+</html>

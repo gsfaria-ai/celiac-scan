@@ -1,0 +1,58 @@
+[
+  {
+    "ean": "5601002084392",
+    "name": "Delícias do Mar Auchan Sem Glúten",
+    "status": "safe",
+    "reason": "Amido de trigo isento de glúten. Certificado.",
+    "brand": "Auchan"
+  },
+  {
+    "ean": "8436019097052",
+    "name": "Bebida Arroz Auchan",
+    "status": "safe",
+    "reason": "Naturalmente isento de glúten.",
+    "brand": "Auchan"
+  },
+  {
+    "ean": "8410063072432",
+    "name": "Barrinhas Salmão Pescanova",
+    "status": "safe",
+    "reason": "Panado com farinha de arroz e milho.",
+    "brand": "Pescanova"
+  },
+  {
+    "ean": "8410063005683",
+    "name": "Caprichos do Mar Pescanova",
+    "status": "safe",
+    "reason": "Farinha de milho e arroz.",
+    "brand": "Pescanova"
+  },
+  {
+    "ean": "8436019091142",
+    "name": "Bebida Soja Auchan",
+    "status": "safe",
+    "reason": "Isento de glúten.",
+    "brand": "Auchan"
+  },
+  {
+    "ean": "5602139200037",
+    "name": "Batatas Sr. Basílio Palhíssimas",
+    "status": "warning",
+    "reason": "Pode conter vestígios de cereais com glúten.",
+    "brand": "Sr. Basílio"
+  },
+  {
+    "ean": "8436019091159",
+    "name": "Bebida Amêndoas Auchan",
+    "status": "safe",
+    "reason": "Naturalmente isento.",
+    "brand": "Auchan"
+  },
+  {
+    "ean": "8410063077499",
+    "name": "Filete Pescada Panada Pescanova",
+    "status": "safe",
+    "reason": "Farinha de arroz e milho.",
+    "brand": "Pescanova"
+  }
+]
